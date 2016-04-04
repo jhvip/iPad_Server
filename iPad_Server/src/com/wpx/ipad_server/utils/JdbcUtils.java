@@ -7,10 +7,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class JdbcUtils {
-	private static String url = "jdbc:mysql://127.0.0.1:3306/JH_SYS";
-	private static String user = "root";
+	
+	//内网
+//	private static String url = "jdbc:mysql://127.0.0.1:3306/JH_SYS";
+//	private static String user = "root";
+//	private static String password = "jhJH123!";
+//	private static String driver = "com.mysql.jdbc.Driver";
+	
+	//外网
+	
+	private static String url = "jdbc:mysql://115.159.184.122:3306/jh_sys";
+	private static String user = "jianghao";
 	private static String password = "jhJH123!";
 	private static String driver = "com.mysql.jdbc.Driver";
+	
 	
 	/*
 	private static String url = "jdbc:mysql://qdm162607130.my3w.com:3306/qdm162607130_db";
