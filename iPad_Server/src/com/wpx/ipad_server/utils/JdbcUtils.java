@@ -16,7 +16,7 @@ public class JdbcUtils {
 	
 	//外网
 	
-	private static String url = "jdbc:mysql://115.159.184.122:3306/jh_sys";
+	private static String url = "jdbc:mysql://115.159.184.122:3306/jh_sys?useUnicode=true&characterEncoding=utf8";
 	private static String user = "jianghao";
 	private static String password = "jhJH123!";
 	private static String driver = "com.mysql.jdbc.Driver";

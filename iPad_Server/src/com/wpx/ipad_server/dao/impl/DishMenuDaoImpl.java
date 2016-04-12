@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.sun.script.javascript.JSAdapter;
 import com.wpx.ipad_server.dao.DishMenuDao;
 import com.wpx.ipad_server.entity.DishMenu;
 import com.wpx.ipad_server.utils.JdbcUtils;
@@ -23,8 +24,9 @@ public class DishMenuDaoImpl implements DishMenuDao {
 //		点菜时间	menuTime	date		提交菜单的时间
 //		是否上菜	served	int		默认：0（未上）非空
 		
-		String sql = "insert into dish(menu_no, guest_id, table_no, room_no, menuTime,served) "
+		String sql = "insert into dish_menu(menu_no, guest_id, table_no, room_no, menuTime,served) "
 				+ "values(?,?,?,?,?,?);";
+		
 		Connection connection = JdbcUtils.getConnection();
 		PreparedStatement preparedStatement = null;
 		try {
@@ -32,8 +34,8 @@ public class DishMenuDaoImpl implements DishMenuDao {
 			preparedStatement.setString(1, dishMenu.getMenu_no());
 			preparedStatement.setInt(2, dishMenu.getGuest_id());
 			preparedStatement.setString(3, dishMenu.getTable_no());
-			preparedStatement.setString(4, dishMenu.getRoom_no());
-			preparedStatement.setString(5, dishMenu.getMenu_no());
+			preparedStatement.setString(4, "一号大厅");
+			preparedStatement.setString(5, dishMenu.getMenuTime());
 			preparedStatement.setInt(6, dishMenu.getServed());
 			if (createMenuInfo(dishMenu.getMenu_no(),menuInfo)) {
 				preparedStatement.executeUpdate();
@@ -59,8 +61,9 @@ public class DishMenuDaoImpl implements DishMenuDao {
 	}
 	//插入菜单详情
 	private boolean createMenuInfo(String menuNo,JSONArray menuInfo){
-		String sql = "insert into menu_detail(menu_no, dish_no, mark) "
-				+ "values(?,?,?);";
+		String sql = "insert into menu_detail(menu_no, dish_no, mark ,num,dish_name) "
+				+ "values(?,?,?,?,?);";
+		
 		Connection connection = JdbcUtils.getConnection();
 		try {
 			connection.setAutoCommit(false);
@@ -75,13 +78,23 @@ public class DishMenuDaoImpl implements DishMenuDao {
 			for (int i = 0; i < menuInfo.length(); i++) {
 				JSONObject jsonObject=menuInfo.getJSONObject(i);
 				preparedStatement.setString(1, menuNo);
-				preparedStatement.setString(2, jsonObject.getString("dish_no"));
-				preparedStatement.setString(3, jsonObject.getString("mark"));
+				preparedStatement.setString(2, jsonObject.getString("id"));
+				StringBuffer mark=new StringBuffer();
+				if (jsonObject.has("tagList")) {
+					JSONArray tagList=jsonObject.getJSONArray("tagList");
+					for(int j=0;j<tagList.length();j++){
+						mark.append(tagList.getString(j));
+						mark.append(" ");
+					}
+				}
+				preparedStatement.setString(3, mark.toString());
+				preparedStatement.setInt(4, jsonObject.getInt("manynum"));
+				preparedStatement.setString(5, jsonObject.getString("name"));
 				preparedStatement.addBatch();
 			}
 			
 			preparedStatement.executeBatch();
-			
+			connection.commit();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
