@@ -71,6 +71,7 @@ public class DishMenuServlet extends HttpServlet {
 		dishMenu.setGuest_id(0);
 		dishMenu.setRoom_no("0");
 		dishMenu.setTable_no(request.getParameter("table_no"));
+		dishMenu.setMenu_money(Double.parseDouble(request.getParameter("sumMoney")));
 		Date now=new Date();
 		SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		dishMenu.setMenuTime(dateFormat.format(now));

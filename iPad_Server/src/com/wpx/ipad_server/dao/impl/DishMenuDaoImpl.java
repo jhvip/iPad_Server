@@ -24,8 +24,8 @@ public class DishMenuDaoImpl implements DishMenuDao {
 //		点菜时间	menuTime	date		提交菜单的时间
 //		是否上菜	served	int		默认：0（未上）非空
 		
-		String sql = "insert into dish_menu(menu_no, guest_id, table_no, room_no, menuTime,served) "
-				+ "values(?,?,?,?,?,?);";
+		String sql = "insert into dish_menu(menu_no, guest_id, table_no, room_no, menuTime,served,menu_money) "
+				+ "values(?,?,?,?,?,?,?);";
 		
 		Connection connection = JdbcUtils.getConnection();
 		PreparedStatement preparedStatement = null;
@@ -37,6 +37,7 @@ public class DishMenuDaoImpl implements DishMenuDao {
 			preparedStatement.setString(4, "一号大厅");
 			preparedStatement.setString(5, dishMenu.getMenuTime());
 			preparedStatement.setInt(6, dishMenu.getServed());
+			preparedStatement.setDouble(7, dishMenu.getMenu_money());
 			if (createMenuInfo(dishMenu.getMenu_no(),menuInfo)) {
 				preparedStatement.executeUpdate();
 			}else {

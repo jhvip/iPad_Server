@@ -14,6 +14,13 @@ public class DishMenu {
 	private String room_no;
 	private String menuTime;
 	private int served;
+	private double menu_money;
+	public double getMenu_money() {
+		return menu_money;
+	}
+	public void setMenu_money(double menu_money) {
+		this.menu_money = menu_money;
+	}
 	@Override
 	public String toString() {
 		return "Dish_menu [menu_no=" + menu_no + ", guest_id=" + guest_id + ", table_no=" + table_no + ", room_no="
